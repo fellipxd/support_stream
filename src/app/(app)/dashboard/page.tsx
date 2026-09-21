@@ -4,7 +4,7 @@ import { isStaff } from '@/server/authz/policy';
 import { countByStatus, listTickets } from '@/server/tickets/service';
 import { prisma } from '@/server/db/client';
 import { OPEN_STATUSES } from '@/lib/labels';
-import { Card, CardHeader, LinkButton } from '@/components/ui/primitives';
+import { Card, CardHeader, LinkButton, PageHeader, StatTile } from '@/components/ui/primitives';
 import { TicketTable } from '@/components/shell/ticket-table';
 
 export const metadata = { title: 'Dashboard' };
@@ -46,45 +46,34 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-slate-900">
-            Hello, {user.name.split(' ')[0]}
-          </h1>
-          <p className="mt-1 text-sm text-slate-600">
-            Everything you have reported, and how it is going.
-          </p>
-        </div>
-        <LinkButton href="/report">Report an issue</LinkButton>
-      </div>
+      <PageHeader
+        eyebrow="Overview"
+        title={`Hello, ${user.name.split(' ')[0]}`}
+        description="Everything you have reported, and how it is going."
+        action={<LinkButton href="/report">Report an issue</LinkButton>}
+      />
 
       {staff && assignedCount > 0 ? (
         <Link
           href="/queue?mine=1"
-          className="mt-5 flex items-center justify-between gap-3 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm hover:bg-brand-100"
+          className="group mt-6 flex items-center justify-between gap-3 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm shadow-xs transition-[background-color,border-color,box-shadow] duration-150 ease-out hover:border-brand-300 hover:bg-brand-100 hover:shadow-sm"
         >
           <span className="font-medium text-brand-900">
             You have {assignedCount} open {assignedCount === 1 ? 'ticket' : 'tickets'} assigned to
             you
           </span>
-          <span aria-hidden="true" className="text-brand-700">
+          <span
+            aria-hidden="true"
+            className="text-brand-700 transition-transform duration-150 ease-out group-hover:translate-x-0.5"
+          >
             →
           </span>
         </Link>
       ) : null}
 
-      <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {tiles.map((tile) => (
-          <Link
-            key={tile.label}
-            href={tile.href}
-            className="rounded-xl border border-slate-200 bg-white p-4 hover:border-slate-300"
-          >
-            <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              {tile.label}
-            </dt>
-            <dd className="mt-1 text-2xl font-bold text-slate-900">{tile.value}</dd>
-          </Link>
+          <StatTile key={tile.label} label={tile.label} value={tile.value} href={tile.href} />
         ))}
       </dl>
 
@@ -95,7 +84,7 @@ export default async function DashboardPage() {
             action={
               <Link
                 href="/dashboard/my-tickets"
-                className="text-sm font-medium text-brand-600 hover:underline"
+                className="text-sm font-medium text-brand-700 underline-offset-4 transition-colors duration-150 ease-out hover:text-brand-600 hover:underline"
               >
                 View all
               </Link>

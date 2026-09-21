@@ -4,7 +4,7 @@ import { requireUser } from '@/server/auth/session';
 import { hasPermission } from '@/server/authz/policy';
 import { listTickets } from '@/server/tickets/service';
 import { prisma } from '@/server/db/client';
-import { Card, CardHeader } from '@/components/ui/primitives';
+import { Card, CardHeader, PageHeader } from '@/components/ui/primitives';
 import { Pagination, TicketTable } from '@/components/shell/ticket-table';
 import { TicketFilters } from '@/components/shell/ticket-filters';
 
@@ -47,10 +47,13 @@ export default async function AllTicketsPage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-      <h1 className="text-xl font-bold tracking-tight text-slate-900">All tickets</h1>
-      <p className="mt-1 text-sm text-slate-600">{result.total} tickets match your search.</p>
+      <PageHeader
+        eyebrow="Organisation-wide"
+        title="All tickets"
+        description={`${result.total} tickets match your search.`}
+      />
 
-      <div className="mt-4 space-y-4">
+      <div className="mt-6 space-y-4">
         <TicketFilters portals={portals} basePath="/tickets" values={params} />
         <Card>
           <CardHeader title="Results" />

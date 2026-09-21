@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import type { TicketStatus } from '@prisma/client';
 import { requireUser } from '@/server/auth/session';
@@ -6,7 +5,7 @@ import { hasPermission } from '@/server/authz/policy';
 import { listTickets } from '@/server/tickets/service';
 import { prisma } from '@/server/db/client';
 import { OPEN_STATUSES } from '@/lib/labels';
-import { Card, CardHeader } from '@/components/ui/primitives';
+import { Card, CardHeader, PageHeader, PillLink } from '@/components/ui/primitives';
 import { Pagination, TicketTable } from '@/components/shell/ticket-table';
 import { TicketFilters } from '@/components/shell/ticket-filters';
 
@@ -67,31 +66,26 @@ export default async function QueuePage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-      <h1 className="text-xl font-bold tracking-tight text-slate-900">Ticket queue</h1>
-      <p className="mt-1 text-sm text-slate-600">
-        {tab === 'untriaged'
-          ? 'Newly reported issues waiting for triage. Work these first.'
-          : `${result.total} tickets match.`}
-      </p>
+      <PageHeader
+        eyebrow="Support workload"
+        title="Ticket queue"
+        description={
+          tab === 'untriaged'
+            ? 'Newly reported issues waiting for triage. Work these first.'
+            : `${result.total} tickets match.`
+        }
+      />
 
-      <nav aria-label="Queue views" className="mt-4 flex flex-wrap gap-1.5">
-        {tabs.map((item) => {
-          const active = item.id === tab || (item.id === 'mine' && params.mine);
-          return (
-            <Link
-              key={item.id}
-              href={item.href}
-              aria-current={active ? 'page' : undefined}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium ${
-                active
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-white text-slate-600 ring-1 ring-inset ring-slate-300 hover:bg-slate-50'
-              }`}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
+      <nav aria-label="Queue views" className="mt-5 flex flex-wrap gap-1.5">
+        {tabs.map((item) => (
+          <PillLink
+            key={item.id}
+            href={item.href}
+            active={item.id === tab || (item.id === 'mine' && Boolean(params.mine))}
+          >
+            {item.label}
+          </PillLink>
+        ))}
       </nav>
 
       <div className="mt-4 space-y-4">

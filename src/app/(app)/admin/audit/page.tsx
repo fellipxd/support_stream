@@ -3,7 +3,7 @@ import { requireUser } from '@/server/auth/session';
 import { hasPermission } from '@/server/authz/policy';
 import { prisma } from '@/server/db/client';
 import { formatDateTime } from '@/lib/format';
-import { Card, CardHeader } from '@/components/ui/primitives';
+import { Card, CardHeader, PageHeader } from '@/components/ui/primitives';
 import { Pagination } from '@/components/shell/ticket-table';
 
 export const metadata = { title: 'Audit log' };
@@ -31,17 +31,18 @@ export default async function AuditPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-      <h1 className="text-xl font-bold tracking-tight text-slate-900">Audit log</h1>
-      <p className="mt-1 text-sm text-slate-600">
-        {total} recorded actions. Records cannot be edited or deleted.
-      </p>
+      <PageHeader
+        eyebrow="Compliance"
+        title="Audit log"
+        description={`${total} recorded actions. Records cannot be edited or deleted.`}
+      />
 
-      <div className="mt-5">
+      <div className="mt-6">
         <Card>
           <CardHeader title="All entries" />
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+              <thead className="border-b border-ink-200 text-xs uppercase tracking-wide text-ink-500">
                 <tr>
                   <th scope="col" className="px-5 py-2.5 font-medium">
                     When
@@ -60,26 +61,26 @@ export default async function AuditPage({
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-ink-100">
                 {entries.map((entry) => (
                   <tr key={entry.id}>
-                    <td className="whitespace-nowrap px-5 py-2.5 text-slate-500">
+                    <td className="whitespace-nowrap px-5 py-2.5 text-ink-500">
                       {formatDateTime(entry.createdAt)}
                     </td>
-                    <td className="px-3 py-2.5 text-slate-800">
+                    <td className="px-3 py-2.5 text-ink-800">
                       {entry.actorLabel}
-                      <span className="ml-1 text-xs text-slate-400">
+                      <span className="ml-1 text-xs text-ink-500">
                         {entry.actorType.toLowerCase()}
                       </span>
                     </td>
-                    <td className="px-3 py-2.5 font-medium text-slate-900">{entry.action}</td>
-                    <td className="px-3 py-2.5 text-slate-600">
+                    <td className="px-3 py-2.5 font-medium text-ink-900">{entry.action}</td>
+                    <td className="px-3 py-2.5 text-ink-600">
                       {entry.entityType}
-                      <span className="ml-1 font-mono text-xs text-slate-400">
+                      <span className="ml-1 font-mono text-xs text-ink-500">
                         {entry.entityId.slice(0, 8)}
                       </span>
                     </td>
-                    <td className="px-5 py-2.5 text-xs text-slate-400">{entry.ip ?? '—'}</td>
+                    <td className="px-5 py-2.5 text-xs text-ink-500">{entry.ip ?? '—'}</td>
                   </tr>
                 ))}
               </tbody>

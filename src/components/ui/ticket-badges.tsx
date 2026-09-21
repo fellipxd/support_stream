@@ -10,14 +10,14 @@ const SEVERITY_TONE: Record<Severity, string> = {
   S1_CRITICAL: 'bg-rose-50 text-rose-700 ring-rose-600/20',
   S2_HIGH: 'bg-orange-50 text-orange-800 ring-orange-600/20',
   S3_MEDIUM: 'bg-amber-50 text-amber-800 ring-amber-600/20',
-  S4_LOW: 'bg-slate-100 text-slate-700 ring-slate-500/20',
+  S4_LOW: 'bg-ink-100 text-ink-700 ring-ink-500/20',
 };
 
 const PRIORITY_TONE: Record<Priority, string> = {
   P0_EMERGENCY: 'bg-rose-50 text-rose-700 ring-rose-600/20',
   P1_URGENT: 'bg-orange-50 text-orange-800 ring-orange-600/20',
-  P2_NORMAL: 'bg-blue-50 text-blue-700 ring-blue-600/20',
-  P3_LOW: 'bg-slate-100 text-slate-700 ring-slate-500/20',
+  P2_NORMAL: 'bg-brand-50 text-brand-700 ring-brand-600/20',
+  P3_LOW: 'bg-ink-100 text-ink-700 ring-ink-500/20',
 };
 
 export function SeverityBadge({ severity }: { severity: Severity }) {

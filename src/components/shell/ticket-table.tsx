@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Priority, Severity, TicketStatus } from '@prisma/client';
 import { formatRelative } from '@/lib/format';
-import { EmptyState } from '@/components/ui/primitives';
+import { EmptyState, LinkButton } from '@/components/ui/primitives';
 import { PriorityBadge, SeverityBadge, StatusBadge } from '@/components/ui/ticket-badges';
 
 export type TicketRow = {
@@ -34,7 +34,7 @@ export function TicketTable({
   return (
     <>
       <table className="hidden w-full text-left text-sm md:table">
-        <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+        <thead className="border-b border-ink-200 text-xs uppercase tracking-wide text-ink-500">
           <tr>
             <th scope="col" className="px-5 py-2.5 font-medium">
               Ticket
@@ -56,22 +56,22 @@ export function TicketTable({
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-100">
+        <tbody className="divide-y divide-ink-100">
           {rows.map((row) => (
-            <tr key={row.id} className="hover:bg-slate-50">
+            <tr key={row.id} className="transition-colors duration-150 ease-out hover:bg-ink-50">
               <td className="px-5 py-3">
                 <Link
                   href={`/tickets/${row.key}`}
-                  className="block font-medium text-slate-900 hover:text-brand-600"
+                  className="block font-medium text-ink-900 transition-colors duration-150 ease-out hover:text-brand-700"
                 >
-                  <span className="font-mono text-xs text-slate-400">{row.key}</span>
+                  <span className="font-mono text-xs text-ink-500">{row.key}</span>
                   <span className="mt-0.5 block max-w-md truncate">{row.title}</span>
                 </Link>
               </td>
-              <td className="px-3 py-3 text-slate-600">
+              <td className="px-3 py-3 text-ink-600">
                 {row.portal.name}
                 {row.category ? (
-                  <span className="block text-xs text-slate-400">{row.category.name}</span>
+                  <span className="block text-xs text-ink-500">{row.category.name}</span>
                 ) : null}
               </td>
               <td className="px-3 py-3">
@@ -83,25 +83,28 @@ export function TicketTable({
                   <SeverityBadge severity={row.severity} />
                 </div>
               </td>
-              <td className="px-3 py-3 text-slate-600">
-                {row.supportOwner?.name ?? <span className="text-slate-400">Unassigned</span>}
+              <td className="px-3 py-3 text-ink-600">
+                {row.supportOwner?.name ?? <span className="text-ink-500">Unassigned</span>}
               </td>
-              <td className="px-5 py-3 text-slate-500">{formatRelative(row.createdAt)}</td>
+              <td className="px-5 py-3 text-ink-500">{formatRelative(row.createdAt)}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <ul className="divide-y divide-slate-100 md:hidden">
+      <ul className="divide-y divide-ink-100 md:hidden">
         {rows.map((row) => (
           <li key={row.id}>
-            <Link href={`/tickets/${row.key}`} className="block px-4 py-3 hover:bg-slate-50">
+            <Link
+              href={`/tickets/${row.key}`}
+              className="block px-4 py-3 transition-colors duration-150 ease-out hover:bg-ink-50"
+            >
               <div className="flex items-center justify-between gap-2">
-                <span className="font-mono text-xs text-slate-400">{row.key}</span>
+                <span className="font-mono text-xs text-ink-500">{row.key}</span>
                 <StatusBadge status={row.status} />
               </div>
-              <p className="mt-1 font-medium text-slate-900">{row.title}</p>
-              <p className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-slate-500">
+              <p className="mt-1 font-medium text-ink-900">{row.title}</p>
+              <p className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-ink-500">
                 <span>{row.portal.name}</span>
                 <span aria-hidden="true">·</span>
                 <span>{formatRelative(row.createdAt)}</span>
@@ -129,27 +132,21 @@ export function Pagination({
   return (
     <nav
       aria-label="Pagination"
-      className="flex items-center justify-between border-t border-slate-200 px-5 py-3 text-sm"
+      className="flex items-center justify-between border-t border-ink-200 px-5 py-3 text-sm"
     >
-      <span className="text-slate-500">
+      <span className="text-ink-500">
         Page {page} of {pageCount}
       </span>
       <div className="flex gap-2">
         {page > 1 ? (
-          <Link
-            href={build(page - 1)}
-            className="rounded-lg bg-white px-3 py-1.5 font-medium text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50"
-          >
+          <LinkButton href={build(page - 1)} variant="secondary" size="sm">
             Previous
-          </Link>
+          </LinkButton>
         ) : null}
         {page < pageCount ? (
-          <Link
-            href={build(page + 1)}
-            className="rounded-lg bg-white px-3 py-1.5 font-medium text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50"
-          >
+          <LinkButton href={build(page + 1)} variant="secondary" size="sm">
             Next
-          </Link>
+          </LinkButton>
         ) : null}
       </div>
     </nav>

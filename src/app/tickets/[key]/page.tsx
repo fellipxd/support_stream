@@ -118,26 +118,26 @@ export default async function TicketPage({ params }: { params: Promise<{ key: st
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
       <nav aria-label="Breadcrumb" className="mb-4 text-sm">
         {staffView ? (
-          <Link href="/queue" className="text-slate-500 hover:text-slate-900">
+          <Link href="/queue" className="text-ink-500 hover:text-ink-900">
             ← Back to the queue
           </Link>
         ) : actor.kind === 'user' ? (
-          <Link href="/dashboard" className="text-slate-500 hover:text-slate-900">
+          <Link href="/dashboard" className="text-ink-500 hover:text-ink-900">
             ← My tickets
           </Link>
         ) : null}
       </nav>
 
-      <header className="rounded-xl border border-slate-200 bg-white p-5">
+      <header className="rounded-xl border border-ink-200 bg-white p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-mono text-sm font-bold tracking-wider text-slate-500">
+          <span className="font-mono text-sm font-bold tracking-wider text-ink-500">
             {ticket.key}
           </span>
           <StatusBadge status={ticket.status} />
           <SeverityBadge severity={ticket.severity} />
           <PriorityBadge priority={ticket.priority} />
         </div>
-        <h1 className="mt-2 text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+        <h1 className="mt-2 text-xl font-bold tracking-tight text-ink-900 sm:text-2xl">
           {ticket.title}
         </h1>
 
@@ -157,28 +157,26 @@ export default async function TicketPage({ params }: { params: Promise<{ key: st
               : []),
           ].map(([label, value]) => (
             <div key={label}>
-              <dt className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                {label}
-              </dt>
-              <dd className="mt-0.5 text-slate-800">{value}</dd>
+              <dt className="text-xs font-medium uppercase tracking-wide text-ink-500">{label}</dt>
+              <dd className="mt-0.5 text-ink-800">{value}</dd>
             </div>
           ))}
         </dl>
 
         {staffView && sla ? (
-          <div className="mt-4 flex flex-wrap gap-4 border-t border-slate-100 pt-3 text-xs text-slate-500">
+          <div className="mt-4 flex flex-wrap gap-4 border-t border-ink-100 pt-3 text-xs text-ink-500">
             <span>
               First response due{' '}
-              <strong className="text-slate-700">{formatDateTime(sla.firstResponseDueAt)}</strong>
+              <strong className="text-ink-700">{formatDateTime(sla.firstResponseDueAt)}</strong>
               {sla.firstResponseMetAt ? ' — met' : ''}
             </span>
             <span>
               Resolution due{' '}
-              <strong className="text-slate-700">{formatDateTime(sla.resolutionDueAt)}</strong>
+              <strong className="text-ink-700">{formatDateTime(sla.resolutionDueAt)}</strong>
             </span>
             <span>
               SLA{' '}
-              <strong className={sla.state === 'BREACHED' ? 'text-rose-600' : 'text-slate-700'}>
+              <strong className={sla.state === 'BREACHED' ? 'text-rose-600' : 'text-ink-700'}>
                 {sla.state}
               </strong>
             </span>
@@ -192,10 +190,10 @@ export default async function TicketPage({ params }: { params: Promise<{ key: st
             <CardHeader title="What was reported" />
             <div className="space-y-4 px-5 py-4 text-sm">
               <div>
-                <h3 className="mb-1 text-xs font-medium uppercase tracking-wide text-slate-400">
+                <h3 className="mb-1 text-xs font-medium uppercase tracking-wide text-ink-500">
                   Description
                 </h3>
-                <p className="whitespace-pre-wrap text-slate-700">{ticket.description}</p>
+                <p className="whitespace-pre-wrap text-ink-700">{ticket.description}</p>
               </div>
               {[
                 ['What they were trying to do', ticket.whatTrying],
@@ -205,18 +203,18 @@ export default async function TicketPage({ params }: { params: Promise<{ key: st
                 .filter(([, value]) => Boolean(value))
                 .map(([label, value]) => (
                   <div key={label as string}>
-                    <h3 className="mb-1 text-xs font-medium uppercase tracking-wide text-slate-400">
+                    <h3 className="mb-1 text-xs font-medium uppercase tracking-wide text-ink-500">
                       {label}
                     </h3>
-                    <p className="whitespace-pre-wrap text-slate-700">{value}</p>
+                    <p className="whitespace-pre-wrap text-ink-700">{value}</p>
                   </div>
                 ))}
               {staffView && (ticket.browser || ticket.os || ticket.device || ticket.pageUrl) ? (
-                <details className="rounded-lg bg-slate-50 px-3 py-2">
-                  <summary className="cursor-pointer text-xs font-medium text-slate-600">
+                <details className="rounded-lg bg-ink-50 px-3 py-2">
+                  <summary className="cursor-pointer text-xs font-medium text-ink-600">
                     Environment
                   </summary>
-                  <dl className="mt-2 space-y-1 text-xs text-slate-600">
+                  <dl className="mt-2 space-y-1 text-xs text-ink-600">
                     {[
                       ['Browser', ticket.browser],
                       ['Operating system', ticket.os],
@@ -228,7 +226,7 @@ export default async function TicketPage({ params }: { params: Promise<{ key: st
                       .filter(([, value]) => Boolean(value))
                       .map(([label, value]) => (
                         <div key={label as string} className="flex gap-2">
-                          <dt className="w-32 shrink-0 text-slate-400">{label}</dt>
+                          <dt className="w-32 shrink-0 text-ink-500">{label}</dt>
                           <dd className="break-all">{String(value)}</dd>
                         </div>
                       ))}
@@ -241,7 +239,7 @@ export default async function TicketPage({ params }: { params: Promise<{ key: st
           {attachments.length > 0 ? (
             <Card>
               <CardHeader title={`Attachments (${attachments.length})`} />
-              <ul className="divide-y divide-slate-100">
+              <ul className="divide-y divide-ink-100">
                 {attachments.map((file) => (
                   <li
                     key={file.id}
@@ -254,7 +252,7 @@ export default async function TicketPage({ params }: { params: Promise<{ key: st
                       >
                         {file.filename}
                       </a>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-ink-500">
                         {formatBytes(file.sizeBytes)} · {formatRelative(file.createdAt)}
                         {file.visibility === 'INTERNAL' ? ' · internal' : ''}
                       </p>
@@ -271,7 +269,7 @@ export default async function TicketPage({ params }: { params: Promise<{ key: st
               description={canInternal ? 'Includes internal notes and system events.' : undefined}
             />
             <Timeline items={items} />
-            <div className="border-t border-slate-100 bg-slate-50/60 px-5 py-4">
+            <div className="border-t border-ink-100 bg-ink-50/60 px-5 py-4">
               <CommentForm
                 ticketId={ticket.id}
                 canWriteInternal={can(actor, 'comment.create.internal', ticket)}
@@ -306,10 +304,10 @@ export default async function TicketPage({ params }: { params: Promise<{ key: st
               }}
             />
           ) : (
-            <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm">
-              <h3 className="font-semibold text-slate-900">Current status</h3>
-              <p className="mt-1 text-slate-600">{STATUS_LABEL[ticket.status]}</p>
-              <p className="mt-3 text-xs text-slate-500">
+            <div className="rounded-xl border border-ink-200 bg-white p-4 text-sm">
+              <h3 className="font-semibold text-ink-900">Current status</h3>
+              <p className="mt-1 text-ink-600">{STATUS_LABEL[ticket.status]}</p>
+              <p className="mt-3 text-xs text-ink-500">
                 We will email you whenever there is an update. You can reply on this page at any
                 time.
               </p>

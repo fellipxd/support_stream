@@ -50,8 +50,8 @@ export function StaffPanel(props: Props) {
       {error ? <FormAlert message={error} /> : null}
 
       {props.permissions.triage ? (
-        <section className="rounded-xl border border-slate-200 bg-white p-4">
-          <h3 className="mb-3 text-sm font-semibold text-slate-900">Triage</h3>
+        <section className="rounded-xl border border-ink-200 bg-white p-4">
+          <h3 className="mb-3 text-sm font-semibold text-ink-900">Triage</h3>
           <form action={triage} className="space-y-3">
             <input type="hidden" name="ticketId" value={props.ticketId} />
             <div>
@@ -111,8 +111,8 @@ export function StaffPanel(props: Props) {
         </section>
       ) : null}
 
-      <section className="rounded-xl border border-slate-200 bg-white p-4">
-        <h3 className="mb-3 text-sm font-semibold text-slate-900">Assignment</h3>
+      <section className="rounded-xl border border-ink-200 bg-white p-4">
+        <h3 className="mb-3 text-sm font-semibold text-ink-900">Assignment</h3>
         <div className="space-y-3">
           {[
             {
@@ -167,8 +167,8 @@ export function StaffPanel(props: Props) {
       </section>
 
       {props.availableTransitions.length > 0 ? (
-        <section className="rounded-xl border border-slate-200 bg-white p-4">
-          <h3 className="mb-3 text-sm font-semibold text-slate-900">Move this ticket</h3>
+        <section className="rounded-xl border border-ink-200 bg-white p-4">
+          <h3 className="mb-3 text-sm font-semibold text-ink-900">Move this ticket</h3>
           <form action={transition} className="space-y-3">
             <input type="hidden" name="ticketId" value={props.ticketId} />
             <div>

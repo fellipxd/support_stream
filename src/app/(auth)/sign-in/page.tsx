@@ -19,11 +19,11 @@ export default async function SignInPage({
   const safeNext = next && next.startsWith('/') && !next.startsWith('//') ? next : undefined;
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6">
-      <h1 className="text-lg font-bold text-slate-900">Sign in</h1>
-      <p className="mt-1 mb-5 text-sm text-slate-600">Access your tickets and dashboard.</p>
+    <div className="rounded-xl border border-ink-200 bg-white p-6">
+      <h1 className="text-lg font-bold text-ink-900">Sign in</h1>
+      <p className="mt-1 mb-5 text-sm text-ink-600">Access your tickets and dashboard.</p>
       <SignInForm next={safeNext} />
-      <p className="mt-5 text-sm text-slate-600">
+      <p className="mt-5 text-sm text-ink-600">
         No account?{' '}
         <Link href="/register" className="font-medium text-brand-600 hover:underline">
           Create one

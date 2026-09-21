@@ -10,13 +10,13 @@ export default async function RegisterPage() {
   if (await getSessionUser()) redirect('/dashboard');
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6">
-      <h1 className="text-lg font-bold text-slate-900">Create an account</h1>
-      <p className="mt-1 mb-5 text-sm text-slate-600">
+    <div className="rounded-xl border border-ink-200 bg-white p-6">
+      <h1 className="text-lg font-bold text-ink-900">Create an account</h1>
+      <p className="mt-1 mb-5 text-sm text-ink-600">
         An account keeps all your tickets in one place. You do not need one to report an issue.
       </p>
       <RegisterForm />
-      <p className="mt-5 text-sm text-slate-600">
+      <p className="mt-5 text-sm text-ink-600">
         Already registered?{' '}
         <Link href="/sign-in" className="font-medium text-brand-600 hover:underline">
           Sign in

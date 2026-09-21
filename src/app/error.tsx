@@ -17,12 +17,12 @@ export default function GlobalError({
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
-      <h1 className="text-lg font-semibold text-slate-900">Something went wrong</h1>
-      <p className="mt-2 text-sm text-slate-600">
+      <h1 className="text-lg font-semibold text-ink-900">Something went wrong</h1>
+      <p className="mt-2 text-sm text-ink-600">
         The page could not be loaded. The error has been logged and our team can look into it.
       </p>
       {error.digest ? (
-        <p className="mt-2 font-mono text-xs text-slate-400">Reference: {error.digest}</p>
+        <p className="mt-2 font-mono text-xs text-ink-500">Reference: {error.digest}</p>
       ) : null}
       <div className="mt-6">
         <Button onClick={reset}>Try again</Button>

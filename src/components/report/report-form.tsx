@@ -72,7 +72,7 @@ export function ReportForm({ portals, reporter, maxAttachmentMb, maxAttachments 
 
       {!reporter && (
         <fieldset className="space-y-4">
-          <legend className="text-sm font-semibold text-slate-900">About you</legend>
+          <legend className="text-sm font-semibold text-ink-900">About you</legend>
           <div>
             <Label htmlFor="reporterName" required>
               Your name
@@ -134,7 +134,7 @@ export function ReportForm({ portals, reporter, maxAttachmentMb, maxAttachments 
       )}
 
       <fieldset className="space-y-4">
-        <legend className="text-sm font-semibold text-slate-900">The issue</legend>
+        <legend className="text-sm font-semibold text-ink-900">The issue</legend>
 
         <div>
           <Label htmlFor="portalId" required>
@@ -241,8 +241,8 @@ export function ReportForm({ portals, reporter, maxAttachmentMb, maxAttachments 
       </fieldset>
 
       <fieldset>
-        <legend className="text-sm font-semibold text-slate-900">Attachments</legend>
-        <p id="attachments-help" className="mt-1 text-sm text-slate-500">
+        <legend className="text-sm font-semibold text-ink-900">Attachments</legend>
+        <p id="attachments-help" className="mt-1 text-sm text-ink-500">
           Screenshots help us a great deal. Up to {maxAttachments} files, {maxAttachmentMb} MB each.
         </p>
         <div className="mt-2">
@@ -257,21 +257,21 @@ export function ReportForm({ portals, reporter, maxAttachmentMb, maxAttachments 
           type="file"
           multiple
           accept={acceptAttribute()}
-          className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200"
+          className="block w-full text-sm text-ink-600 file:mr-3 file:rounded-lg file:border-0 file:bg-ink-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink-700 hover:file:bg-ink-200"
         />
         <FieldError id="file-error" errors={errors?.file} />
       </fieldset>
 
-      <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+      <div className="rounded-xl border border-ink-200 bg-ink-50 p-4">
         <button
           type="button"
           onClick={() => setShowTechnical((v) => !v)}
           aria-expanded={showTechnical}
           aria-controls="technical-details"
-          className="flex w-full items-center justify-between text-left text-sm font-medium text-slate-700"
+          className="flex w-full items-center justify-between text-left text-sm font-medium text-ink-700"
         >
           Technical details
-          <span className="text-xs font-normal text-slate-500">
+          <span className="text-xs font-normal text-ink-500">
             {showTechnical ? 'Hide' : 'Optional — we fill most of this in for you'}
           </span>
         </button>
@@ -310,8 +310,8 @@ export function ReportForm({ portals, reporter, maxAttachmentMb, maxAttachments 
       {showTechnical ? null : <input type="hidden" name="os" value={environment.os} />}
       {showTechnical ? null : <input type="hidden" name="device" value={environment.device} />}
 
-      <div className="flex flex-col gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-slate-500">
+      <div className="flex flex-col gap-3 border-t border-ink-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-xs text-ink-500">
           We will email you a ticket reference and a secure link to follow progress.
         </p>
         <Button type="submit" disabled={pending} className="w-full sm:w-auto">

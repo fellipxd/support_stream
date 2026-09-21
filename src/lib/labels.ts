@@ -19,7 +19,7 @@ export const STATUS_LABEL: Record<TicketStatus, string> = {
 };
 
 export const STATUS_TONE: Record<TicketStatus, string> = {
-  NEW: 'bg-blue-50 text-blue-700 ring-blue-600/20',
+  NEW: 'bg-brand-50 text-brand-700 ring-brand-600/20',
   TRIAGE: 'bg-indigo-50 text-indigo-700 ring-indigo-600/20',
   ASSIGNED: 'bg-violet-50 text-violet-700 ring-violet-600/20',
   IN_PROGRESS: 'bg-amber-50 text-amber-800 ring-amber-600/20',
@@ -28,11 +28,11 @@ export const STATUS_TONE: Record<TicketStatus, string> = {
   READY_FOR_QA: 'bg-cyan-50 text-cyan-800 ring-cyan-600/20',
   QA_VERIFICATION: 'bg-teal-50 text-teal-800 ring-teal-600/20',
   RESOLVED: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20',
-  CLOSED: 'bg-slate-100 text-slate-700 ring-slate-500/20',
+  CLOSED: 'bg-ink-100 text-ink-700 ring-ink-500/20',
   REOPENED: 'bg-rose-50 text-rose-700 ring-rose-600/20',
-  DUPLICATE: 'bg-slate-100 text-slate-600 ring-slate-500/20',
-  REJECTED: 'bg-slate-100 text-slate-600 ring-slate-500/20',
-  CANCELLED: 'bg-slate-100 text-slate-600 ring-slate-500/20',
+  DUPLICATE: 'bg-ink-100 text-ink-600 ring-ink-500/20',
+  REJECTED: 'bg-ink-100 text-ink-600 ring-ink-500/20',
+  CANCELLED: 'bg-ink-100 text-ink-600 ring-ink-500/20',
 };
 
 export const SEVERITY_LABEL: Record<Severity, string> = {

@@ -3,7 +3,7 @@ import { requireUser } from '@/server/auth/session';
 import { hasPermission } from '@/server/authz/policy';
 import { prisma } from '@/server/db/client';
 import { SEVERITY_LABEL } from '@/lib/labels';
-import { Badge, Card, CardHeader } from '@/components/ui/primitives';
+import { Badge, Card, CardHeader, PageHeader } from '@/components/ui/primitives';
 
 export const metadata = { title: 'Portals & routing' };
 export const dynamic = 'force-dynamic';
@@ -39,12 +39,13 @@ export default async function PortalsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-      <h1 className="text-xl font-bold tracking-tight text-slate-900">Portals, routing and SLA</h1>
-      <p className="mt-1 text-sm text-slate-600">
-        Business configuration. Changes here take effect immediately — no code deployment.
-      </p>
+      <PageHeader
+        eyebrow="Configuration"
+        title="Portals, routing and SLA"
+        description="Business configuration. Changes here take effect immediately — no code deployment."
+      />
 
-      <div className="mt-5 space-y-4">
+      <div className="mt-6 space-y-4">
         {portals.map((portal) => (
           <Card key={portal.id}>
             <CardHeader
@@ -64,7 +65,7 @@ export default async function PortalsPage() {
             />
             <div className="grid gap-4 px-5 py-4 text-sm sm:grid-cols-2">
               <div>
-                <h3 className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-400">
+                <h3 className="mb-1.5 text-xs font-medium uppercase tracking-wide text-ink-500">
                   Categories
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -74,17 +75,17 @@ export default async function PortalsPage() {
                 </div>
               </div>
               <div>
-                <h3 className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-400">
+                <h3 className="mb-1.5 text-xs font-medium uppercase tracking-wide text-ink-500">
                   Projects and teams
                 </h3>
-                <ul className="space-y-1 text-slate-600">
+                <ul className="space-y-1 text-ink-600">
                   {portal.projects.map((project) => (
                     <li key={project.id}>
-                      <span className="font-medium text-slate-800">{project.name}</span>
-                      <span className="ml-1.5 font-mono text-xs text-slate-400">
+                      <span className="font-medium text-ink-800">{project.name}</span>
+                      <span className="ml-1.5 font-mono text-xs text-ink-500">
                         {project.keyPrefix ?? 'SUP'}
                       </span>
-                      <span className="block text-xs text-slate-400">
+                      <span className="block text-xs text-ink-500">
                         {project.teams.map((team) => team.name).join(' · ') || 'No teams'}
                       </span>
                     </li>
@@ -99,7 +100,7 @@ export default async function PortalsPage() {
           <CardHeader title="Routing rules" description="The most specific matching rule wins." />
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+              <thead className="border-b border-ink-200 text-xs uppercase tracking-wide text-ink-500">
                 <tr>
                   <th scope="col" className="px-5 py-2.5 font-medium">
                     Rule
@@ -118,14 +119,14 @@ export default async function PortalsPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-ink-100">
                 {rules.map((rule) => (
                   <tr key={rule.id}>
-                    <td className="px-5 py-2.5 font-medium text-slate-900">{rule.name}</td>
-                    <td className="px-3 py-2.5 text-slate-600">{rule.portal?.name ?? 'Any'}</td>
-                    <td className="px-3 py-2.5 text-slate-600">{rule.category?.name ?? 'Any'}</td>
-                    <td className="px-3 py-2.5 text-slate-600">{rule.project?.name ?? '—'}</td>
-                    <td className="px-5 py-2.5 text-xs text-slate-500">
+                    <td className="px-5 py-2.5 font-medium text-ink-900">{rule.name}</td>
+                    <td className="px-3 py-2.5 text-ink-600">{rule.portal?.name ?? 'Any'}</td>
+                    <td className="px-3 py-2.5 text-ink-600">{rule.category?.name ?? 'Any'}</td>
+                    <td className="px-3 py-2.5 text-ink-600">{rule.project?.name ?? '—'}</td>
+                    <td className="px-5 py-2.5 text-xs text-ink-500">
                       {[rule.supportTeam?.name, rule.qaTeam?.name].filter(Boolean).join(' · ') ||
                         '—'}
                     </td>
@@ -142,7 +143,7 @@ export default async function PortalsPage() {
             description="First response and resolution targets by severity."
           />
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+            <thead className="border-b border-ink-200 text-xs uppercase tracking-wide text-ink-500">
               <tr>
                 <th scope="col" className="px-5 py-2.5 font-medium">
                   Severity
@@ -158,17 +159,17 @@ export default async function PortalsPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-ink-100">
               {slas.map((policy) => (
                 <tr key={policy.id}>
-                  <td className="px-5 py-2.5 font-medium text-slate-900">
+                  <td className="px-5 py-2.5 font-medium text-ink-900">
                     {SEVERITY_LABEL[policy.severity]}
                   </td>
-                  <td className="px-3 py-2.5 text-slate-600">{policy.firstResponseMins} min</td>
-                  <td className="px-3 py-2.5 text-slate-600">
+                  <td className="px-3 py-2.5 text-ink-600">{policy.firstResponseMins} min</td>
+                  <td className="px-3 py-2.5 text-ink-600">
                     {Math.round(policy.resolutionMins / 60)} h
                   </td>
-                  <td className="px-5 py-2.5 text-xs text-slate-500">
+                  <td className="px-5 py-2.5 text-xs text-ink-500">
                     {policy.businessHoursOnly ? 'Business hours' : '24/7'}
                   </td>
                 </tr>

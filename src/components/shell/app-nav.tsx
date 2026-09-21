@@ -3,6 +3,8 @@ import type { RoleName } from '@prisma/client';
 import { prisma } from '@/server/db/client';
 import { signOutAction } from '@/app/actions/auth';
 import { initials } from '@/lib/format';
+import { BrandMark } from '@/components/ui/brand-mark';
+import { Button } from '@/components/ui/primitives';
 
 type Props = {
   children: React.ReactNode;
@@ -35,32 +37,21 @@ export async function AppNav({ children, user, staff }: Props) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-20 border-b border-slate-200 bg-white">
+      <header className="sticky top-0 z-20 border-b border-ink-200 bg-white/90 backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-2.5 sm:px-6">
-          <Link
-            href="/dashboard"
-            className="flex shrink-0 items-center gap-2 text-sm font-semibold text-slate-900"
-          >
-            <span
-              aria-hidden="true"
-              className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-600 text-white"
-            >
-              S
-            </span>
-            <span className="hidden sm:inline">Support Portal</span>
-          </Link>
+          <BrandMark href="/dashboard" hideLabelOnMobile />
 
           <nav aria-label="Main" className="min-w-0 flex-1">
-            <ul className="flex items-center gap-1 overflow-x-auto text-sm">
+            <ul className="flex items-center gap-0.5 overflow-x-auto text-sm">
               {items.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="relative whitespace-nowrap rounded-lg px-2.5 py-1.5 font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    className="relative whitespace-nowrap rounded-lg px-2.5 py-1.5 font-medium text-ink-600 transition-colors duration-150 ease-out hover:bg-ink-100 hover:text-ink-900"
                   >
                     {item.label}
                     {item.href === '/notifications' && unread > 0 ? (
-                      <span className="ml-1.5 inline-flex min-w-5 items-center justify-center rounded-full bg-brand-600 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                      <span className="ml-1.5 inline-flex min-w-5 items-center justify-center rounded-md bg-brand-600 px-1.5 py-0.5 text-[10px] font-semibold tabular-nums text-white">
                         {unread > 99 ? '99+' : unread}
                         <span className="sr-only"> unread notifications</span>
                       </span>
@@ -74,23 +65,20 @@ export async function AppNav({ children, user, staff }: Props) {
           <div className="flex shrink-0 items-center gap-2">
             <span
               aria-hidden="true"
-              className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900 text-[11px] font-semibold text-white"
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-ink-900 text-[11px] font-semibold text-white ring-1 ring-inset ring-white/15"
               title={user.name}
             >
               {initials(user.name)}
             </span>
             <form action={signOutAction}>
-              <button
-                type="submit"
-                className="rounded-lg px-2 py-1.5 text-sm font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-              >
+              <Button type="submit" variant="ghost" size="sm">
                 Sign out
-              </button>
+              </Button>
             </form>
           </div>
         </div>
       </header>
-      <main id="main" className="flex-1 bg-slate-50">
+      <main id="main" className="flex-1 bg-ink-50">
         {children}
       </main>
     </div>

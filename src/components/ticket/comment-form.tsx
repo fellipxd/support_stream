@@ -75,7 +75,7 @@ export function CommentForm({
                       ? option.value === 'PUBLIC'
                         ? 'bg-brand-600 text-white ring-brand-600'
                         : 'bg-amber-500 text-white ring-amber-500'
-                      : 'bg-white text-slate-600 ring-slate-300 hover:bg-slate-50'
+                      : 'bg-white text-ink-600 ring-ink-300 hover:bg-ink-50'
                   }`}
                 >
                   {option.label}
@@ -84,7 +84,7 @@ export function CommentForm({
             })}
           </div>
           <p
-            className={`mt-1.5 text-xs ${isInternal ? 'font-medium text-amber-700' : 'text-slate-500'}`}
+            className={`mt-1.5 text-xs ${isInternal ? 'font-medium text-amber-700' : 'text-ink-500'}`}
           >
             {selected?.help}
           </p>
@@ -119,14 +119,14 @@ export function CommentForm({
             type="file"
             multiple
             accept={acceptAttribute()}
-            className="block max-w-full text-xs text-slate-600 file:mr-2 file:rounded-lg file:border-0 file:bg-slate-100 file:px-2.5 file:py-1.5 file:text-xs file:font-medium file:text-slate-700 hover:file:bg-slate-200"
+            className="block max-w-full text-xs text-ink-600 file:mr-2 file:rounded-lg file:border-0 file:bg-ink-100 file:px-2.5 file:py-1.5 file:text-xs file:font-medium file:text-ink-700 hover:file:bg-ink-200"
           />
         </div>
         <Button type="submit" disabled={pending}>
           {pending ? 'Sending…' : isInternal ? 'Add internal note' : 'Send reply'}
         </Button>
       </div>
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-ink-500">
         Markdown is supported: **bold**, *italic*, `code`, - lists, [links](https://…).
       </p>
     </form>

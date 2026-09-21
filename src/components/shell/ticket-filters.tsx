@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import { PRIORITY_LABEL, SEVERITY_LABEL, STATUS_LABEL } from '@/lib/labels';
-import { inputClass } from '@/components/ui/primitives';
+import { Button, LinkButton, inputClass } from '@/components/ui/primitives';
 
 type Props = {
   portals: { id: string; name: string }[];
@@ -19,14 +18,14 @@ export function TicketFilters({ portals, basePath, values }: Props) {
     <form
       action={basePath}
       method="get"
-      className="rounded-xl border border-slate-200 bg-white p-4"
+      className="rounded-xl border border-ink-200 bg-white p-4 shadow-xs"
     >
       {values.tab ? <input type="hidden" name="tab" value={values.tab} /> : null}
       {values.mine ? <input type="hidden" name="mine" value={values.mine} /> : null}
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <div className="lg:col-span-2">
-          <label htmlFor="filter-q" className="mb-1 block text-xs font-medium text-slate-600">
+          <label htmlFor="filter-q" className="mb-1 block text-xs font-medium text-ink-600">
             Search
           </label>
           <input
@@ -39,7 +38,7 @@ export function TicketFilters({ portals, basePath, values }: Props) {
           />
         </div>
         <div>
-          <label htmlFor="filter-portal" className="mb-1 block text-xs font-medium text-slate-600">
+          <label htmlFor="filter-portal" className="mb-1 block text-xs font-medium text-ink-600">
             Portal
           </label>
           <select
@@ -57,7 +56,7 @@ export function TicketFilters({ portals, basePath, values }: Props) {
           </select>
         </div>
         <div>
-          <label htmlFor="filter-status" className="mb-1 block text-xs font-medium text-slate-600">
+          <label htmlFor="filter-status" className="mb-1 block text-xs font-medium text-ink-600">
             Status
           </label>
           <select
@@ -75,10 +74,7 @@ export function TicketFilters({ portals, basePath, values }: Props) {
           </select>
         </div>
         <div>
-          <label
-            htmlFor="filter-priority"
-            className="mb-1 block text-xs font-medium text-slate-600"
-          >
+          <label htmlFor="filter-priority" className="mb-1 block text-xs font-medium text-ink-600">
             Priority
           </label>
           <select
@@ -98,25 +94,19 @@ export function TicketFilters({ portals, basePath, values }: Props) {
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <button
-          type="submit"
-          className="rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700"
-        >
+        <Button type="submit" variant="dark" size="sm">
           Apply filters
-        </button>
+        </Button>
         {hasFilters ? (
-          <Link
-            href={basePath}
-            className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100"
-          >
+          <LinkButton href={basePath} variant="ghost" size="sm">
             Clear
-          </Link>
+          </LinkButton>
         ) : null}
         <select
           name="severity"
           defaultValue={values.severity ?? ''}
           aria-label="Severity"
-          className="ml-auto rounded-lg border-0 bg-white px-2 py-1.5 text-xs text-slate-700 ring-1 ring-inset ring-slate-300"
+          className="ml-auto rounded-lg border-0 bg-white px-2 py-1.5 text-xs text-ink-700 shadow-xs ring-1 ring-inset ring-ink-300"
         >
           <option value="">Any severity</option>
           {(Object.keys(SEVERITY_LABEL) as Array<keyof typeof SEVERITY_LABEL>).map((severity) => (
@@ -129,7 +119,7 @@ export function TicketFilters({ portals, basePath, values }: Props) {
           name="sort"
           defaultValue={values.sort ?? 'newest'}
           aria-label="Sort order"
-          className="rounded-lg border-0 bg-white px-2 py-1.5 text-xs text-slate-700 ring-1 ring-inset ring-slate-300"
+          className="rounded-lg border-0 bg-white px-2 py-1.5 text-xs text-ink-700 shadow-xs ring-1 ring-inset ring-ink-300"
         >
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>

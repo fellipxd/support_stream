@@ -3,7 +3,7 @@ import { requireUser } from '@/server/auth/session';
 import { prisma } from '@/server/db/client';
 import { markNotificationsReadAction } from '@/app/actions/tickets';
 import { formatRelative } from '@/lib/format';
-import { Button, Card, CardHeader, EmptyState } from '@/components/ui/primitives';
+import { Button, Card, CardHeader, EmptyState, PageHeader } from '@/components/ui/primitives';
 
 export const metadata = { title: 'Notifications' };
 export const dynamic = 'force-dynamic';
@@ -22,12 +22,13 @@ export default async function NotificationsPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
-      <h1 className="text-xl font-bold tracking-tight text-slate-900">Notifications</h1>
-      <p className="mt-1 text-sm text-slate-600">
-        {unread > 0 ? `${unread} unread.` : 'You are all caught up.'}
-      </p>
+      <PageHeader
+        eyebrow="Activity"
+        title="Notifications"
+        description={unread > 0 ? `${unread} unread.` : 'You are all caught up.'}
+      />
 
-      <div className="mt-5">
+      <div className="mt-6">
         <Card>
           <CardHeader
             title="Recent"
@@ -47,7 +48,7 @@ export default async function NotificationsPage() {
               description="You will be notified here when a ticket is assigned to you or one you follow is updated."
             />
           ) : (
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-ink-100">
               {notifications.map((notification) => {
                 const body = (
                   <div
@@ -55,15 +56,15 @@ export default async function NotificationsPage() {
                   >
                     <span
                       aria-hidden="true"
-                      className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${notification.readAt ? 'bg-slate-200' : 'bg-brand-600'}`}
+                      className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${notification.readAt ? 'bg-ink-200' : 'bg-brand-600'}`}
                     />
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-slate-900">
+                      <p className="text-sm font-medium text-ink-900">
                         {notification.title}
                         {notification.readAt ? null : <span className="sr-only"> (unread)</span>}
                       </p>
-                      <p className="mt-0.5 truncate text-sm text-slate-600">{notification.body}</p>
-                      <p className="mt-0.5 text-xs text-slate-400">
+                      <p className="mt-0.5 truncate text-sm text-ink-600">{notification.body}</p>
+                      <p className="mt-0.5 text-xs text-ink-500">
                         {formatRelative(notification.createdAt)}
                       </p>
                     </div>
@@ -74,7 +75,7 @@ export default async function NotificationsPage() {
                     {notification.ticket ? (
                       <Link
                         href={`/tickets/${notification.ticket.key}`}
-                        className="block hover:bg-slate-50"
+                        className="block hover:bg-ink-50"
                       >
                         {body}
                       </Link>

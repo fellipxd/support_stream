@@ -29,8 +29,8 @@ export type TimelineItem = TimelineComment | TimelineEvent;
 
 const VISIBILITY_STYLE: Record<CommentVisibility, { ring: string; tone: string }> = {
   PUBLIC: {
-    ring: 'border-slate-200 bg-white',
-    tone: 'bg-slate-100 text-slate-700 ring-slate-500/20',
+    ring: 'border-ink-200 bg-white',
+    tone: 'bg-ink-100 text-ink-700 ring-ink-500/20',
   },
   INTERNAL: {
     ring: 'border-amber-200 bg-amber-50/60',
@@ -45,8 +45,8 @@ const VISIBILITY_STYLE: Record<CommentVisibility, { ring: string; tone: string }
     tone: 'bg-violet-100 text-violet-800 ring-violet-600/20',
   },
   SYSTEM: {
-    ring: 'border-slate-200 bg-slate-50',
-    tone: 'bg-slate-100 text-slate-600 ring-slate-500/20',
+    ring: 'border-ink-200 bg-ink-50',
+    tone: 'bg-ink-100 text-ink-600 ring-ink-500/20',
   },
 };
 
@@ -88,24 +88,21 @@ function describe(event: TimelineEvent): string {
 /** The ticket's conversation and its immutable activity trail, interleaved chronologically. */
 export function Timeline({ items }: { items: TimelineItem[] }) {
   if (items.length === 0) {
-    return <p className="px-5 py-8 text-center text-sm text-slate-500">No activity yet.</p>;
+    return <p className="px-5 py-8 text-center text-sm text-ink-500">No activity yet.</p>;
   }
 
   return (
-    <ol className="divide-y divide-slate-100">
+    <ol className="divide-y divide-ink-100">
       {items.map((item) =>
         item.kind === 'event' ? (
           <li key={item.id} className="flex items-start gap-3 px-5 py-2.5 text-sm">
             <span
               aria-hidden="true"
-              className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300"
+              className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ink-300"
             />
-            <p className="text-slate-500">
-              <span className="font-medium text-slate-700">{item.actorLabel}</span> {describe(item)}
-              <time
-                dateTime={item.createdAt.toISOString()}
-                className="ml-1.5 text-xs text-slate-400"
-              >
+            <p className="text-ink-500">
+              <span className="font-medium text-ink-700">{item.actorLabel}</span> {describe(item)}
+              <time dateTime={item.createdAt.toISOString()} className="ml-1.5 text-xs text-ink-500">
                 {formatRelative(item.createdAt)}
               </time>
             </p>
@@ -116,11 +113,11 @@ export function Timeline({ items }: { items: TimelineItem[] }) {
               <header className="mb-2 flex flex-wrap items-center gap-2">
                 <span
                   aria-hidden="true"
-                  className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900 text-[11px] font-semibold text-white"
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-ink-900 text-[11px] font-semibold text-white"
                 >
                   {initials(item.authorName)}
                 </span>
-                <span className="text-sm font-semibold text-slate-900">{item.authorName}</span>
+                <span className="text-sm font-semibold text-ink-900">{item.authorName}</span>
                 {item.visibility !== 'PUBLIC' ? (
                   <Badge tone={VISIBILITY_STYLE[item.visibility].tone}>
                     {VISIBILITY_LABEL[item.visibility]}
@@ -128,7 +125,7 @@ export function Timeline({ items }: { items: TimelineItem[] }) {
                 ) : null}
                 <time
                   dateTime={item.createdAt.toISOString()}
-                  className="ml-auto text-xs text-slate-400"
+                  className="ml-auto text-xs text-ink-500"
                 >
                   {formatDateTime(item.createdAt)}
                 </time>
@@ -145,7 +142,7 @@ export function Timeline({ items }: { items: TimelineItem[] }) {
                     <li key={file.id}>
                       <a
                         href={`/api/attachments/${file.id}/link`}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50"
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1.5 text-xs font-medium text-ink-700 ring-1 ring-inset ring-ink-300 hover:bg-ink-50"
                       >
                         <svg
                           viewBox="0 0 24 24"

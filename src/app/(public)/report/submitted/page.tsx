@@ -16,10 +16,10 @@ export default async function SubmittedPage({
 
   return (
     <div className="mx-auto max-w-xl px-4 py-14 sm:px-6">
-      <div className="rounded-xl border border-slate-200 bg-white p-6 text-center sm:p-8">
+      <div className="rounded-xl border border-ink-200 bg-white p-6 text-center sm:p-8">
         <div
           aria-hidden="true"
-          className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600"
+          className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-700"
         >
           <svg
             viewBox="0 0 24 24"
@@ -31,21 +31,21 @@ export default async function SubmittedPage({
             <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h1 className="text-xl font-bold text-slate-900">Thank you — we have your report</h1>
-        <p className="mt-2 text-sm text-slate-600">
+        <h1 className="text-xl font-bold text-ink-900">Thank you — we have your report</h1>
+        <p className="mt-2 text-sm text-ink-600">
           Our support team has been notified and will review it shortly.
         </p>
 
         {key ? (
-          <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 px-4 py-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+          <div className="mt-6 rounded-lg border border-ink-200 bg-ink-50 px-4 py-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-ink-500">
               Your ticket reference
             </p>
-            <p className="mt-1 font-mono text-xl font-bold tracking-wider text-slate-900">{key}</p>
+            <p className="mt-1 font-mono text-xl font-bold tracking-wider text-ink-900">{key}</p>
           </div>
         ) : null}
 
-        <p className="mt-5 text-sm text-slate-600">
+        <p className="mt-5 text-sm text-ink-600">
           We have emailed you this reference along with a secure link to follow progress and reply.
         </p>
 
@@ -53,7 +53,7 @@ export default async function SubmittedPage({
           {token ? <LinkButton href={`/t/${token}`}>Open your ticket</LinkButton> : null}
           <Link
             href="/"
-            className="inline-flex items-center justify-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50"
+            className="inline-flex items-center justify-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-ink-700 ring-1 ring-inset ring-ink-300 hover:bg-ink-50"
           >
             Back to the portal
           </Link>

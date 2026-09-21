@@ -5,7 +5,7 @@ import { hasPermission } from '@/server/authz/policy';
 import { prisma } from '@/server/db/client';
 import { queueDepth } from '@/server/jobs/queue';
 import { formatRelative } from '@/lib/format';
-import { Card, CardHeader } from '@/components/ui/primitives';
+import { Card, CardHeader, PageHeader, StatTile } from '@/components/ui/primitives';
 
 export const metadata = { title: 'Administration' };
 export const dynamic = 'force-dynamic';
@@ -39,17 +39,15 @@ export default async function AdminPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-      <h1 className="text-xl font-bold tracking-tight text-slate-900">Administration</h1>
-      <p className="mt-1 text-sm text-slate-600">Business configuration and system health.</p>
+      <PageHeader
+        eyebrow="System"
+        title="Administration"
+        description="Business configuration and system health."
+      />
 
-      <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {config.map((item) => (
-          <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-4">
-            <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              {item.label}
-            </dt>
-            <dd className="mt-1 text-2xl font-bold text-slate-900">{item.value}</dd>
-          </div>
+          <StatTile key={item.label} label={item.label} value={item.value} href={item.href} />
         ))}
       </dl>
 
@@ -58,24 +56,34 @@ export default async function AdminPage() {
           <CardHeader title="Background jobs" description="Email and asynchronous processing." />
           <dl className="grid grid-cols-3 gap-3 px-5 py-4 text-sm">
             <div>
-              <dt className="text-xs text-slate-500">Pending</dt>
-              <dd className="text-lg font-semibold text-slate-900">{jobs.pending}</dd>
+              <dt className="text-[11px] font-semibold uppercase tracking-widest text-ink-500">
+                Pending
+              </dt>
+              <dd className="mt-1 font-display text-lg font-semibold tabular-nums text-ink-900">
+                {jobs.pending}
+              </dd>
             </div>
             <div>
-              <dt className="text-xs text-slate-500">Running</dt>
-              <dd className="text-lg font-semibold text-slate-900">{jobs.running}</dd>
+              <dt className="text-[11px] font-semibold uppercase tracking-widest text-ink-500">
+                Running
+              </dt>
+              <dd className="mt-1 font-display text-lg font-semibold tabular-nums text-ink-900">
+                {jobs.running}
+              </dd>
             </div>
             <div>
-              <dt className="text-xs text-slate-500">Dead</dt>
+              <dt className="text-[11px] font-semibold uppercase tracking-widest text-ink-500">
+                Dead
+              </dt>
               <dd
-                className={`text-lg font-semibold ${jobs.dead > 0 ? 'text-rose-600' : 'text-slate-900'}`}
+                className={`mt-1 font-display text-lg font-semibold tabular-nums ${jobs.dead > 0 ? 'text-rose-700' : 'text-ink-900'}`}
               >
                 {jobs.dead}
               </dd>
             </div>
           </dl>
           {failedEmails > 0 ? (
-            <p className="border-t border-slate-100 px-5 py-3 text-sm text-amber-700">
+            <p className="border-t border-ink-100 px-5 py-3 text-sm text-amber-700">
               {failedEmails} email {failedEmails === 1 ? 'delivery has' : 'deliveries have'} failed
               and will be retried.
             </p>
@@ -96,19 +104,19 @@ export default async function AdminPage() {
             action={
               <Link
                 href="/admin/audit"
-                className="text-sm font-medium text-brand-600 hover:underline"
+                className="text-sm font-medium text-brand-700 underline-offset-4 transition-colors duration-150 ease-out hover:text-brand-600 hover:underline"
               >
                 View all
               </Link>
             }
           />
-          <ul className="divide-y divide-slate-100 text-sm">
+          <ul className="divide-y divide-ink-100 text-sm">
             {audits.map((entry) => (
               <li key={entry.id} className="flex flex-wrap items-center gap-x-2 px-5 py-2.5">
-                <span className="font-medium text-slate-900">{entry.actorLabel}</span>
-                <span className="text-slate-600">{entry.action.replace(/[._]/g, ' ')}</span>
-                <span className="text-slate-400">{entry.entityType}</span>
-                <span className="ml-auto text-xs text-slate-400">
+                <span className="font-medium text-ink-900">{entry.actorLabel}</span>
+                <span className="text-ink-600">{entry.action.replace(/[._]/g, ' ')}</span>
+                <span className="text-ink-500">{entry.entityType}</span>
+                <span className="ml-auto text-xs text-ink-500">
                   {formatRelative(entry.createdAt)}
                 </span>
               </li>
@@ -132,18 +140,16 @@ async function PortalList() {
   });
 
   return (
-    <ul className="divide-y divide-slate-100 text-sm">
+    <ul className="divide-y divide-ink-100 text-sm">
       {portals.map((portal) => (
         <li key={portal.id} className="flex items-center justify-between gap-3 px-5 py-2.5">
           <span>
-            <span className="font-medium text-slate-900">{portal.name}</span>
-            <span className="ml-2 text-xs text-slate-400">
-              {portal._count.categories} categories
-            </span>
+            <span className="font-medium text-ink-900">{portal.name}</span>
+            <span className="ml-2 text-xs text-ink-500">{portal._count.categories} categories</span>
           </span>
           <span className="flex items-center gap-2 text-xs">
-            <span className="text-slate-500">{portal._count.tickets} tickets</span>
-            <span className={portal.isActive ? 'text-emerald-600' : 'text-slate-400'}>
+            <span className="text-ink-500">{portal._count.tickets} tickets</span>
+            <span className={portal.isActive ? 'text-emerald-700' : 'text-ink-500'}>
               {portal.isActive ? 'Active' : 'Inactive'}
             </span>
           </span>

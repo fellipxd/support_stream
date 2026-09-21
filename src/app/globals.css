@@ -1,11 +1,108 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-brand-50: #eff6ff;
-  --color-brand-100: #dbeafe;
-  --color-brand-600: #1d4ed8;
-  --color-brand-700: #1e40af;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* --------------------------------------------------------------------
+   * Brand — a deep institutional blue. Dark enough that white text on
+   * brand-600 clears 7:1, so buttons and badges are AA at any size.
+   * ------------------------------------------------------------------ */
+  --color-brand-50: #f4f7fa;
+  --color-brand-100: #e6edf4;
+  --color-brand-200: #c9d9e8;
+  --color-brand-300: #a0bcd5;
+  --color-brand-400: #6f97ba;
+  --color-brand-500: #47749c;
+  --color-brand-600: #2e5a81;
+  --color-brand-700: #234563;
+  --color-brand-800: #1b3550;
+  --color-brand-900: #132538;
+  --color-brand-950: #0b1724;
+
+  /* --------------------------------------------------------------------
+   * Accent — brushed brass. Used sparingly: hairlines, the monogram,
+   * step markers. Never as a large field.
+   * ------------------------------------------------------------------ */
+  --color-accent-50: #fbf7ef;
+  --color-accent-100: #f5ecd8;
+  --color-accent-200: #e9d6ac;
+  --color-accent-300: #d9b978;
+  --color-accent-400: #c89c4c;
+  --color-accent-500: #b5832f;
+  --color-accent-600: #966a25;
+  --color-accent-700: #77531f;
+  --color-accent-800: #5c401b;
+  --color-accent-900: #3f2c14;
+
+  /* --------------------------------------------------------------------
+   * Ink — warm neutral scale. Replaces the cool grey ramp everywhere.
+   * ink-500 is the lightest shade permitted for body text (5.0:1 on the
+   * ink-50 page background); ink-400 and lighter are decorative only.
+   * ------------------------------------------------------------------ */
+  --color-ink-50: #f8f7f5;
+  --color-ink-100: #f1efeb;
+  --color-ink-200: #e5e2dc;
+  --color-ink-300: #d2cec6;
+  --color-ink-400: #9e988e;
+  --color-ink-500: #6f6a62;
+  --color-ink-600: #555049;
+  --color-ink-700: #3e3b36;
+  --color-ink-800: #2b2926;
+  --color-ink-900: #1b1a18;
+  --color-ink-950: #111110;
+
+  /* Typography. The families themselves are injected by next/font. */
+  --font-sans:
+    var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  --font-display:
+    var(--font-source-serif), ui-serif, Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+  --font-mono:
+    var(--font-plex-mono), ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Tighter radii read as considered rather than friendly. */
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.625rem;
+  --radius-2xl: 0.875rem;
+
+  /* Shadows are warm-tinted and shallow: elevation by hairline, not haze. */
+  --shadow-2xs: 0 1px 1px 0 rgb(27 26 24 / 0.03);
+  --shadow-xs: 0 1px 2px 0 rgb(27 26 24 / 0.04);
+  --shadow-sm: 0 1px 2px -1px rgb(27 26 24 / 0.06), 0 1px 3px 0 rgb(27 26 24 / 0.04);
+  --shadow-md: 0 2px 4px -2px rgb(27 26 24 / 0.06), 0 6px 16px -6px rgb(27 26 24 / 0.1);
+  --shadow-lg: 0 10px 30px -12px rgb(27 26 24 / 0.16), 0 2px 6px -2px rgb(27 26 24 / 0.06);
+
+  /* Reusable entrance motion. Transform + opacity only — never layout. */
+  --animate-fade-in: fade-in 500ms ease-out both;
+  --animate-slide-up: slide-up 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-scale-in: scale-in 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 :root {
@@ -17,19 +114,71 @@ html {
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply bg-ink-50 text-ink-900 antialiased;
+  font-feature-settings:
+    'cv05' 1,
+    'ss01' 1;
+}
+
+/* Headings are set in the display serif; tight tracking keeps them corporate. */
+.font-display {
+  font-feature-settings:
+    'liga' 1,
+    'kern' 1;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
 }
 
 /* Visible, consistent focus for keyboard users (WCAG 2.1 AA, 2.4.7). */
 :focus-visible {
-  outline: 2px solid var(--color-brand-600);
+  outline: 2px solid var(--focus-ring, var(--color-brand-600));
   outline-offset: 2px;
   border-radius: 3px;
 }
 
+/**
+ * Dark surfaces switch the focus ring to white. The default brand ring only reaches 2.2:1
+ * against brand-900, short of the 3:1 that WCAG 1.4.11 asks of a focus indicator.
+ */
+.on-dark {
+  --focus-ring: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+ * Scroll reveal. An IntersectionObserver in <Reveal> flips data-revealed;
+ * the hidden state lives in CSS so nothing flashes during hydration. The
+ * <noscript> block in the root layout neutralises it when JS never runs.
+ * ------------------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 600ms ease-out,
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal[data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/* A hairline rule in the accent, used above section headings. */
+.rule-accent::before {
+  content: '';
+  display: block;
+  width: 1.75rem;
+  height: 2px;
+  margin-bottom: 0.75rem;
+  border-radius: 1px;
+  background: var(--color-accent-500);
+}
+
 /* Rendered comment bodies. The markup comes from our own sanitising renderer. */
 .prose-comment {
-  @apply text-sm leading-relaxed text-slate-700;
+  @apply text-sm leading-relaxed text-ink-700;
 }
 .prose-comment p {
   @apply mb-2 last:mb-0;
@@ -41,24 +190,37 @@ body {
   @apply font-medium text-brand-600 underline underline-offset-2;
 }
 .prose-comment code {
-  @apply rounded bg-slate-100 px-1 py-0.5 font-mono text-[0.85em];
+  @apply rounded bg-ink-100 px-1 py-0.5 font-mono text-[0.85em];
 }
 .prose-comment pre {
-  @apply mb-2 overflow-x-auto rounded-lg bg-slate-900 p-3 text-xs text-slate-100;
+  @apply mb-2 overflow-x-auto rounded-lg bg-ink-900 p-3 text-xs text-ink-100;
 }
 .prose-comment pre code {
   @apply bg-transparent p-0 text-inherit;
 }
-.prose-comment h3, .prose-comment h4, .prose-comment h5 {
-  @apply mb-1 mt-3 font-semibold text-slate-900;
+.prose-comment h3,
+.prose-comment h4,
+.prose-comment h5 {
+  @apply mb-1 mt-3 font-semibold text-ink-900;
 }
 .prose-comment .mention {
   @apply rounded bg-brand-50 px-1 font-medium text-brand-700;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+    /* Staggered entrances would otherwise leave content invisible for the delay. */
+    animation-delay: 0.01ms !important;
+    transition-delay: 0.01ms !important;
+  }
+
+  /* Never leave revealed content depending on a transition that no longer runs. */
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }
