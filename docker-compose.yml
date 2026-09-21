@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: support_stream
+    ports: ['5432:5432']
+    volumes: ['db-data:/var/lib/postgresql/data']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/support_stream?schema=public
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      SESSION_SECRET: ${SESSION_SECRET:?set a 32+ character secret}
+      ATTACHMENT_SECRET: ${ATTACHMENT_SECRET:?set a 32+ character secret}
+      JOB_RUNNER_SECRET: ${JOB_RUNNER_SECRET:?set a secret}
+      MAIL_DRIVER: ${MAIL_DRIVER:-console}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-Support Portal <support@example.com>}
+    ports: ['3000:3000']
+    volumes: ['storage:/app/storage']
+    command: sh -c "npx prisma migrate deploy && npm run start"
+
+  # The worker drains emails, SLA sweeps and scheduled closures. Scale it independently.
+  worker:
+    build: .
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/support_stream?schema=public
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      SESSION_SECRET: ${SESSION_SECRET:?set a 32+ character secret}
+      ATTACHMENT_SECRET: ${ATTACHMENT_SECRET:?set a 32+ character secret}
+      JOB_RUNNER_SECRET: ${JOB_RUNNER_SECRET:?set a secret}
+      MAIL_DRIVER: ${MAIL_DRIVER:-console}
+      SMTP_HOST: ${SMTP_HOST:-}
+      MAIL_FROM: ${MAIL_FROM:-Support Portal <support@example.com>}
+    volumes: ['storage:/app/storage']
+    command: npm run worker
+
+volumes:
+  db-data:
+  storage:
