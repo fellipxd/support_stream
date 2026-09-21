@@ -143,7 +143,7 @@ test('an unsupported file type is rejected', async ({ page }) => {
   });
   await page.getByRole('button', { name: 'Submit report' }).click();
 
-  await expect(page.getByRole('alert')).toBeVisible();
+  await expect(page.locator('form').getByRole('alert')).toBeVisible();
   await expect(page).not.toHaveURL(/submitted/);
 });
 

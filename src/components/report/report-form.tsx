@@ -242,16 +242,22 @@ export function ReportForm({ portals, reporter, maxAttachmentMb, maxAttachments 
 
       <fieldset>
         <legend className="text-sm font-semibold text-slate-900">Attachments</legend>
-        <p className="mt-1 text-sm text-slate-500">
+        <p id="attachments-help" className="mt-1 text-sm text-slate-500">
           Screenshots help us a great deal. Up to {maxAttachments} files, {maxAttachmentMb} MB each.
         </p>
+        <div className="mt-2">
+          <Label htmlFor="attachments" hint="optional">
+            Add screenshots or documents
+          </Label>
+        </div>
         <input
+          aria-describedby="attachments-help"
           id="attachments"
           name="attachments"
           type="file"
           multiple
           accept={acceptAttribute()}
-          className="mt-2 block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200"
+          className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200"
         />
         <FieldError id="file-error" errors={errors?.file} />
       </fieldset>

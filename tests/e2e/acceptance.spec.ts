@@ -136,8 +136,10 @@ test('a registered user reports an issue and follows it from their dashboard', a
   await expect(page.getByText('This also happens on my phone.')).toBeVisible();
 });
 
-test('a resolved ticket can be confirmed by the reporter', async ({ page }) => {
+test('a resolved ticket can be confirmed by the reporter, which closes it', async ({ page }) => {
   const key = await reportAsGuest(page, { title: 'Login button does nothing' });
+  // Keep the guest's secure link; it is unused so far, so it still opens the ticket.
+  const guestLink = await page.getByRole('link', { name: 'Open your ticket' }).getAttribute('href');
 
   await signIn(page, PEOPLE.support);
   await openTicket(page, key);
@@ -145,8 +147,39 @@ test('a resolved ticket can be confirmed by the reporter', async ({ page }) => {
   await moveStatus(page, 'In progress');
   await moveStatus(page, 'Resolved', 'Cache cleared, login works again.');
   await signOut(page);
-
-  // The guest returns through a fresh secure link in the resolution email.
   await runJobs(page);
-  await page.goto('/report/submitted');
+
+  // The reporter returns and is asked, in plain language, whether the issue is sorted.
+  await page.context().clearCookies();
+  await page.goto(guestLink!);
+  await page.waitForURL(new RegExp(`/tickets/${key}`));
+  await expect(page.getByRole('heading', { name: /Is this sorted\?/ })).toBeVisible();
+  await expect(page.getByText('Cache cleared, login works again.')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Yes, it is working' }).click();
+  await expect(page.getByRole('heading', { name: /This ticket is closed/ })).toBeVisible();
+});
+
+test('a reporter who is still affected can reopen the ticket', async ({ page }) => {
+  const key = await reportAsGuest(page, { title: 'Statement totals are wrong' });
+  const guestLink = await page.getByRole('link', { name: 'Open your ticket' }).getAttribute('href');
+
+  await signIn(page, PEOPLE.support);
+  await openTicket(page, key);
+  await moveStatus(page, 'Triage');
+  await moveStatus(page, 'In progress');
+  await moveStatus(page, 'Resolved', 'Totals recalculated.');
+  await signOut(page);
+
+  await page.context().clearCookies();
+  await page.goto(guestLink!);
+  await page.waitForURL(new RegExp(`/tickets/${key}`));
+  await page.getByRole('button', { name: 'No, it is still happening' }).click();
+
+  // The ticket comes back to the team, and the history records who reopened it.
+  await expect(page.getByText('Reopened').first()).toBeVisible();
+
+  await signIn(page, PEOPLE.support);
+  await openTicket(page, key);
+  await expect(page.getByText(/changed status from Resolved to Reopened/i)).toBeVisible();
 });

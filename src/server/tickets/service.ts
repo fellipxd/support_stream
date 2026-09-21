@@ -177,7 +177,7 @@ export async function createTicket(
         whatTrying: input.whatTrying || null,
         whatHappened: input.whatHappened || null,
         whatExpected: input.whatExpected || null,
-        frequency: input.frequency ?? null,
+        frequency: input.frequency || null,
         occurredAt: input.occurredAt ? new Date(input.occurredAt) : null,
         browser: input.browser || null,
         os: input.os || null,

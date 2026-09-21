@@ -80,8 +80,11 @@ can(actor, 'ticket.transition', ticket) → boolean
 requirePermission(actor, permission, resource?) → throws ForbiddenError
 ```
 
-- `actor` is a discriminated union: `{kind:'user', id, roles, permissions}` |
-  `{kind:'guest', ticketId}` | `{kind:'system'}`.
+- `actor` is a discriminated union: `{kind:'user', id, roles}` | `{kind:'guest', ticketId}` |
+  `{kind:'system'}`. Roles are read from the database on every request; nothing role-related is
+  ever taken from the cookie payload or the client.
+- The matrix itself is versioned in code (`src/server/authz/permissions.ts`): a change to who
+  may do what arrives as a reviewed diff with a failing test, not an unlogged row edit.
 - Resource-scoped permissions (`own`, `asgn`) are resolved by `scopeFor(actor, permission)`
   which returns a Prisma `where` fragment, so **list** queries are filtered in SQL rather than
   fetched-then-filtered. This is what prevents IDOR at the list level.

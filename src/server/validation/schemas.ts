@@ -26,7 +26,11 @@ export const reportIssueSchema = z.object({
   whatTrying: z.string().trim().max(2000).optional().or(z.literal('')),
   whatHappened: z.string().trim().max(2000).optional().or(z.literal('')),
   whatExpected: z.string().trim().max(2000).optional().or(z.literal('')),
-  frequency: z.enum(['ALWAYS', 'SOMETIMES', 'ONCE']).optional(),
+  // An unselected <select> submits an empty string, which must mean "not answered".
+  frequency: z
+    .union([z.enum(['ALWAYS', 'SOMETIMES', 'ONCE']), z.literal('')])
+    .optional()
+    .transform((v) => v || undefined),
   occurredAt: z.string().optional().or(z.literal('')),
 
   // Environment (captured automatically, still validated)

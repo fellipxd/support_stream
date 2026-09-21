@@ -49,7 +49,8 @@ test('required fields are marked up so assistive technology can announce errors'
   await page.getByLabel('Tell us what happened').fill('y');
   await page.getByRole('button', { name: 'Submit report' }).click();
 
-  const alert = page.getByRole('alert');
+  // Next.js renders its own route announcer with role="alert", so scope to the form's.
+  const alert = page.locator('form').getByRole('alert');
   await expect(alert).toBeVisible();
 
   const portal = page.getByLabel('Which portal or product?');
